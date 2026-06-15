@@ -1,0 +1,15 @@
+# Flask Backend
+Flask==3.1.1
+flask-cors==5.0.1
+
+# Django Backend
+Django==5.1.7
+django-cors-headers==4.7.0
+
+# AI Integration
+openai==1.82.0
+
+# Utilities
+python-dotenv==1.1.0
+requests==2.32.3
+gunicorn==23.0.0

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI-powered Grammar & Spell Checker — fix grammar, spelling, clarity, and readability instantly with Grok AI.">
+    <meta name="keywords" content="grammar checker, spell checker, AI writing assistant, readability, clarity, Grok AI">
+    <meta name="author" content="AI Grammar Checker">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="AI Grammar & Spell Checker — Powered by Grok AI">
+    <meta property="og:description" content="Premium AI writing assistant that checks grammar, spelling, clarity, and readability in real time.">
+    <meta property="og:type" content="website">
+    <meta name="theme-color" content="#7c3aed">
+    <title>AI Grammar & Spell Checker — Powered by Grok AI</title>
+
+    <!-- Google Font: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- ===================== LOADING OVERLAY ===================== -->
+    <div id="loading-overlay" class="loading-overlay" aria-hidden="true">
+        <div class="loading-spinner-wrapper">
+            <div class="loading-spinner"></div>
+            <p class="loading-text">Analyzing your text…</p>
+        </div>
+    </div>
+
+    <!-- ===================== TOAST CONTAINER ===================== -->
+    <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+    <!-- ===================== HISTORY SIDEBAR ===================== -->
+    <aside id="history-sidebar" class="history-sidebar" aria-label="Check history">
+        <div class="history-sidebar-header">
+            <h2 class="history-sidebar-title">History</h2>
+            <button id="btn-close-history" class="btn-icon" aria-label="Close history sidebar" title="Close">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+            </button>
+        </div>
+        <ul id="history-list" class="history-list">
+            <!-- Populated by JS -->
+        </ul>
+        <div id="history-empty" class="history-empty">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <p>No history yet</p>
+        </div>
+    </aside>
+
+    <!-- ===================== MAIN WRAPPER ===================== -->
+    <div id="app-wrapper" class="app-wrapper">
+
+        <!-- ============ HERO HEADER ============ -->
+        <header id="hero-header" class="hero-header">
+            <div class="hero-bg-gradient"></div>
+            <div class="hero-content">
+                <div class="hero-brand">
+                    <div class="hero-logo">
+                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+                    </div>
+                    <div>
+                        <h1 class="hero-title">AI Grammar &amp; Spell Checker</h1>
+                        <p class="hero-tagline">Powered by <strong>Grok AI</strong></p>
+                    </div>
+                </div>
+                <div class="hero-actions">
+                    <button id="btn-toggle-history" class="btn-ghost" aria-label="Toggle history sidebar" title="History">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        <span class="btn-ghost-label">History</span>
+                    </button>
+                    <button id="btn-toggle-darkmode" class="btn-ghost" aria-label="Toggle dark mode" title="Toggle theme">
+                        <svg id="icon-darkmode-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                        <svg id="icon-darkmode-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- ============ TOOLBAR ============ -->
+        <nav id="toolbar" class="toolbar" aria-label="Check actions">
+            <div class="toolbar-inner">
+                <button id="btn-grammar-check" class="btn-tool" data-action="grammar">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                    Grammar Check
+                </button>
+                <button id="btn-spell-check" class="btn-tool" data-action="spelling">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V4h16v3"/><path d="M9 20h6"/><path d="M12 4v16"/></svg>
+                    Spell Check
+                </button>
+                <button id="btn-clarity" class="btn-tool" data-action="clarity">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+                    Clarity Improvement
+                </button>
+                <button id="btn-readability" class="btn-tool" data-action="readability">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                    Readability Analysis
+                </button>
+                <button id="btn-full-check" class="btn-tool btn-tool--primary" data-action="full">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    Full Check
+                </button>
+            </div>
+        </nav>
+
+        <!-- ============ MAIN CONTENT: TWO-PANE LAYOUT ============ -->
+        <main id="main-content" class="main-content">
+            <div class="panes-container">
+
+                <!-- LEFT PANE: Input -->
+                <section id="pane-input" class="pane glass-card" aria-label="Text input">
+                    <div class="pane-header">
+                        <h2 class="pane-title">Your Text</h2>
+                        <span id="input-word-count" class="pane-meta">0 words · 0 characters</span>
+                    </div>
+                    <textarea
+                        id="text-input"
+                        class="text-input"
+                        placeholder="Paste or type your text here..."
+                        aria-label="Text to check"
+                        spellcheck="false"
+                    ></textarea>
+                </section>
+
+                <!-- RIGHT PANE: Output -->
+                <section id="pane-output" class="pane glass-card" aria-label="Corrected output">
+                    <div class="pane-header">
+                        <h2 class="pane-title">Corrected Text</h2>
+                        <button id="btn-copy-corrected" class="btn-icon-sm" aria-label="Copy corrected text" title="Copy to clipboard">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                        </button>
+                    </div>
+                    <div id="text-output" class="text-output" aria-live="polite">
+                        <div id="output-placeholder" class="output-placeholder">
+                            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                            <p>Your corrected text will appear here</p>
+                        </div>
+                        <div id="output-diff" class="output-diff" style="display:none"></div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- ============ RESULTS SUMMARY CARDS ============ -->
+            <section id="results-summary" class="results-summary" aria-label="Results summary">
+                <div class="stats-card glass-card" id="stat-errors">
+                    <div class="stats-icon stats-icon--errors">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+                    </div>
+                    <div class="stats-body">
+                        <span id="stat-errors-count" class="stats-value">—</span>
+                        <span class="stats-label">Errors Found</span>
+                    </div>
+                </div>
+                <div class="stats-card glass-card" id="stat-corrections">
+                    <div class="stats-icon stats-icon--corrections">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                    </div>
+                    <div class="stats-body">
+                        <span id="stat-corrections-count" class="stats-value">—</span>
+                        <span class="stats-label">Corrections Made</span>
+                    </div>
+                </div>
+                <div class="stats-card glass-card" id="stat-readability">
+                    <div class="stats-icon stats-icon--readability">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                    </div>
+                    <div class="stats-body">
+                        <span id="stat-readability-score" class="stats-value">—</span>
+                        <span class="stats-label">Readability Score</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ============ CORRECTIONS DETAIL PANEL ============ -->
+            <section id="corrections-panel" class="corrections-panel glass-card" aria-label="Detailed corrections" style="display:none">
+                <div class="corrections-panel-header">
+                    <h2 class="corrections-panel-title">Corrections Detail</h2>
+                    <span id="corrections-count-badge" class="corrections-badge">0</span>
+                </div>
+                <ul id="corrections-list" class="corrections-list">
+                    <!-- Populated by JS -->
+                </ul>
+            </section>
+        </main>
+
+        <!-- ============ FOOTER ============ -->
+        <footer id="app-footer" class="app-footer">
+            <p>&copy; 2026 AI Grammar &amp; Spell Checker &middot; Powered by <strong>Grok AI</strong> &middot; Built with ❤️</p>
+        </footer>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
