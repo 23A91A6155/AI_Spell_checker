@@ -1,10 +1,17 @@
 # 🤖 AI Grammar & Spell Checker
 
-An AI-powered writing assistant that checks grammar, spelling, punctuation, sentence clarity, and readability using the **xAI Grok API**. Built with **Flask**, **Django**, and a premium vanilla **HTML/CSS/JavaScript** frontend.
+An AI-powered writing assistant that checks grammar, spelling, punctuation, sentence clarity, and readability using **AI LLM APIs**. Built with **Flask**, **Django**, and a premium vanilla **HTML/CSS/JavaScript** frontend.
 
-![Powered by Grok AI](https://img.shields.io/badge/Powered%20by-Grok%20AI-7c3aed?style=for-the-badge)
+![Live](https://img.shields.io/badge/🔴_Live-ai--spell--checker--xjzh.onrender.com-brightgreen?style=for-the-badge)
 ![Flask](https://img.shields.io/badge/Flask-3.1-green?style=for-the-badge)
 ![Django](https://img.shields.io/badge/Django-5.1-blue?style=for-the-badge)
+![Groq AI](https://img.shields.io/badge/Powered%20by-Groq%20AI-7c3aed?style=for-the-badge)
+
+## 🌐 Live Demo
+
+**👉 [https://ai-spell-checker-xjzh.onrender.com](https://ai-spell-checker-xjzh.onrender.com)**
+
+> ⚠️ Free tier — first load may take ~30s if the server is sleeping.
 
 ---
 
@@ -107,7 +114,7 @@ AI_Spell_checker/
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/AI_Spell_checker.git
+git clone https://github.com/23A91A6155/AI_Spell_checker.git
 cd AI_Spell_checker
 ```
 
@@ -273,7 +280,8 @@ This project is for educational purposes.
 
 ## 🙏 Acknowledgments
 
-- [xAI](https://x.ai) — Grok API for AI-powered text analysis
+- [Groq](https://groq.com) — Fast AI inference API
 - [Flask](https://flask.palletsprojects.com/) — Lightweight Python web framework
 - [Django](https://www.djangoproject.com/) — Full-featured Python web framework
 - [Inter Font](https://fonts.google.com/specimen/Inter) — Typography
+- [Render](https://render.com) — Cloud deployment platform
