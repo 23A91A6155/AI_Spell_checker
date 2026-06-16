@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: ai-spell-checker
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn flask_app.app:app --bind 0.0.0.0:$PORT
+    envVars:
+      - key: XAI_API_KEY
+        sync: false
+      - key: GROK_MODEL
+        value: llama-3.3-70b-versatile
+      - key: XAI_BASE_URL
+        value: https://api.groq.com/openai/v1
+      - key: FLASK_DEBUG
+        value: "False"
+      - key: PYTHON_VERSION
+        value: "3.11.0"

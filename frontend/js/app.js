@@ -6,8 +6,9 @@
     'use strict';
 
     // ── API Base URLs ────────────────────────────────────────
-    const FLASK_API  = 'http://localhost:5000/api';
-    const DJANGO_API = 'http://localhost:8000/api';
+    const isLocal   = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    const FLASK_API  = isLocal ? 'http://localhost:5000/api' : '/api';
+    const DJANGO_API = isLocal ? 'http://localhost:8000/api' : '/api';
 
     // ── DOM References (cached) ──────────────────────────────
     const $ = (sel) => document.querySelector(sel);

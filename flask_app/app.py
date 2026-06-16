@@ -1,4 +1,5 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
+import os
 from flask_cors import CORS
 from flask_app.config import Config
 from flask_app.services.grammar_checker import GrammarChecker
@@ -7,7 +8,10 @@ from flask_app.services.clarity_improver import ClarityImprover
 from flask_app.services.readability_analyzer import ReadabilityAnalyzer
 import requests
 
-app = Flask(__name__)
+# Resolve the frontend directory
+FRONTEND_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'frontend')
+
+app = Flask(__name__, static_folder=FRONTEND_DIR)
 CORS(app)
 
 # Initialize service instances
@@ -179,5 +183,23 @@ def save_to_history(original_text, result, check_type):
 # Entry point
 # ---------------------------------------------------------------------------
 
+# ---------------------------------------------------------------------------
+# Serve frontend static files (for production deployment)
+# ---------------------------------------------------------------------------
+
+@app.route('/')
+def serve_frontend():
+    """Serve the main frontend page."""
+    return send_from_directory(FRONTEND_DIR, 'index.html')
+
+
+@app.route('/<path:path>')
+def serve_static(path):
+    """Serve frontend static assets (CSS, JS, images)."""
+    if os.path.exists(os.path.join(FRONTEND_DIR, path)):
+        return send_from_directory(FRONTEND_DIR, path)
+    return send_from_directory(FRONTEND_DIR, 'index.html')
+
+
 if __name__ == '__main__':
-    app.run(port=Config.FLASK_PORT, debug=Config.DEBUG)
+    app.run(host='0.0.0.0', port=Config.FLASK_PORT, debug=Config.DEBUG)
