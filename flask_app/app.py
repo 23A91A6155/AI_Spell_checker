@@ -11,7 +11,7 @@ import requests
 # Resolve the frontend directory
 FRONTEND_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'frontend')
 
-app = Flask(__name__, static_folder=FRONTEND_DIR)
+app = Flask(__name__, static_folder=None)
 CORS(app)
 
 # Initialize service instances
@@ -196,6 +196,8 @@ def serve_frontend():
 @app.route('/<path:path>')
 def serve_static(path):
     """Serve frontend static assets (CSS, JS, images)."""
+    if path.startswith('api/'):
+        return jsonify({"error": "Not found"}), 404
     if os.path.exists(os.path.join(FRONTEND_DIR, path)):
         return send_from_directory(FRONTEND_DIR, path)
     return send_from_directory(FRONTEND_DIR, 'index.html')
